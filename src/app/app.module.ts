@@ -12,6 +12,7 @@ import { AuthenticationService } from './service/authentication.service';
 import { UserService } from './service/user.service';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { NotificationModule } from './notification.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { NotificationModule } from './notification.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     NotificationModule
   ],
   providers: [NotificationService, AuthenticationService, UserService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],

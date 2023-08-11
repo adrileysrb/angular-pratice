@@ -10,6 +10,11 @@ export class NotificationService {
   constructor(private notifierService: NotifierService) { }
 
   public notify(type: NotificationType, message: string){
-    this.notifierService.notify(type, message);
+    if(message){
+      this.notifierService.notify(type, message);
+    } else {
+      this.notifierService.notify(type, "Internal error has been occurred! Try again later.");
+    }
+    
   }
 }
