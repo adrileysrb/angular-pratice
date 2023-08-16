@@ -14,19 +14,33 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { NotificationModule } from './notification.module';
 import { FormsModule } from '@angular/forms';
 
+import { MenubarModule } from 'primeng/menubar';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     UserComponent,
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NotificationModule
+    NotificationModule,
+
+    MenubarModule,
+    InputTextModule,
+    ButtonModule,
+    TableModule,
+    TagModule
   ],
   providers: [NotificationService, AuthenticationService, UserService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],
   bootstrap: [AppComponent]

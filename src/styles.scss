@@ -2,3 +2,8 @@
 @import "node_modules/angular-notifier/styles";
 @import "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css";
 @import "https://cdn.usebootstrap.com/bootstrap/4.1.1/css/bootstrap.min.css";
+
+
+body {
+    font-family: var(--font-family);
+}
