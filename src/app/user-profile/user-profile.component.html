@@ -1,0 +1,86 @@
+<form [formGroup]="userProfileForm" (ngSubmit)="doIt()" class="wrapper">
+
+    <div class="user-profile-0 border-2 margin-1">
+        <img height="135" width="135" src="{{user?.profileImageUrl}}" alt="">
+        
+        <label for="upload">
+            <span class="btn-upload"> Escolher foto</span>
+        </label>
+        <input id="upload" type="file" accept="image/*" name="profileImage" style="display: none;"
+          (change)="onProfileImageChange($event)">
+        
+        <div class="border-2 permissions">
+            <span style="font-size: 1.2rem;">Permissions from role:</span>
+            <br/>
+            <span style="margin-left: 15px;" *ngFor="let authority of user?.authorities">- {{authority}}</span>
+        </div>
+
+        <p>
+            Member since: <strong>{{user?.joinDate | date}}</strong>
+        </p>
+    </div>
+
+    <div>        
+        <div class="user-profile-1 border">
+            <p>
+                <label for="first-name">First Name</label>
+                <br/>
+                <input id="first-name" value="" type="text" pInputText formControlName="firstName"/>
+                <br/>
+            </p>
+        
+            <p>
+                <label for="last-name">Last Name</label>
+                <br/>
+                <input id="last-name" type="text" pInputText formControlName="lastName"/>
+            </p>
+    
+            <p>
+                <label for="username">Username</label>
+                <br/>
+                <input id="username" type="text" pInputText formControlName="username"/>
+            </p>
+        
+            <p>
+                <label for="email">Email</label>
+                <br/>
+                <input id="email" type="text" pInputText formControlName="email"/>
+            </p>
+            
+            <p>
+                <label for="role">Role</label>
+                <br/>
+                <p-dropdown id="role" formControlName="role" [options]="cities" optionLabel="name" placeholder="Select a City"></p-dropdown>
+        
+            </p>
+        </div>
+       
+        <div class="user-profile-2 border">
+            <h3>Account Settings:</h3>
+            <div>
+                <p>
+                    <p-checkbox [binary]="true" formControlName="active" value="true" inputId="active"></p-checkbox>
+                    <label style="margin-left: 5px;" for="active">Active</label>
+                </p>
+                <p>
+                    <p-checkbox [binary]="true" formControlName="unlocked" value="true" inputId="unlocked"></p-checkbox>
+                    <label style="margin-left: 5px;" for="unlocked">Unlocked</label>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin: 10px;">
+        <div style="display: none;">
+            <p-button  type="submit" label="Update info" ></p-button>
+        </div>
+        <p-button (click)="confirm1()" icon="pi" label="Update info"></p-button>
+    </div>
+    
+</form>
+
+<!-- <p-button label="Logout" (click)="onLogOut()" ></p-button> -->
+
+<!-- Confimation dialog -->
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

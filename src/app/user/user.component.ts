@@ -5,6 +5,12 @@ import { MenuItem } from 'primeng/api';
 import { UserService } from '../service/user.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Role } from '../enum/role.enum';
+
+interface City {
+  name: string;
+}
 
 @Component({
   selector: 'app-user',
@@ -18,6 +24,10 @@ export class UserComponent implements OnInit, OnDestroy {
   public users: User[] = [];
 
   private subscriptions: Subscription[] = [];
+  visible: boolean = false;
+  visible2: boolean = false;
+  cities!: City[];
+  userProfileForm!: FormGroup;
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService){}
 
@@ -41,6 +51,16 @@ export class UserComponent implements OnInit, OnDestroy {
       })
     ); 
 
+    this.userProfileForm = new FormGroup({
+      firstName: new FormControl(''),
+      lastName: new FormControl(''),
+      username: new FormControl(''),
+      email: new FormControl(''),
+      role: new FormControl<Role | null>(null),
+      active: new FormControl<boolean | null>(null),
+      unlocked: new FormControl<boolean | null>(null)
+    });
+    
   }
 
   getSeverity(status: boolean) {
@@ -69,5 +89,36 @@ export class UserComponent implements OnInit, OnDestroy {
     
   }
 
+  showDialog(user: User) {
+    this.user = user;
+    const valuesForm = {
+      firstName: this.user?.firstName,
+      lastName:  this.user?.lastName,
+      username:  this.user?.username,
+      email:  this.user?.email,
+      role:  this.user?.role,
+      active:  this.user?.active,
+      unlocked:  this.user?.notLocked
+    }
+    console.log(valuesForm)
+    this.userProfileForm.setValue(valuesForm);
+    
+    this.visible = true;
+  }
 
+  showDialog2(user: User) {
+    this.visible2 = true;
+  }
+  
+  doIt() {
+
+  }
+
+  onLogOut() {
+  
+  }
+
+  onProfileImageChange($event: Event) {
+  
+  }
 }
