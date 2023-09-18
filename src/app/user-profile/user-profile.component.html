@@ -12,7 +12,7 @@
         <div class="border-2 permissions">
             <span style="font-size: 1.2rem;">Permissions from role:</span>
             <br/>
-            <span style="margin-left: 15px;" *ngFor="let authority of user?.authorities">- {{authority}}</span>
+            <span style="margin-left: 15px;" *ngFor="let authority of user?.authorities">&bull; {{authority}}<br/></span>
         </div>
 
         <p>
@@ -50,7 +50,7 @@
             <p>
                 <label for="role">Role</label>
                 <br/>
-                <p-dropdown id="role" formControlName="role" [options]="cities" optionLabel="name" placeholder="Select a City"></p-dropdown>
+                <p-dropdown id="role" formControlName="role" [options]="cities" optionLabel="name"></p-dropdown>
         
             </p>
         </div>

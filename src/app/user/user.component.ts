@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationService } from '../service/authentication.service';
 import { User } from '../model/user';
-import { MenuItem } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { UserService } from '../service/user.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -29,7 +29,7 @@ export class UserComponent implements OnInit, OnDestroy {
   cities!: City[];
   userProfileForm!: FormGroup;
 
-  constructor(private authenticationService: AuthenticationService, private userService: UserService){}
+  constructor(private authenticationService: AuthenticationService, private userService: UserService, private confirmationService: ConfirmationService, private messageService: MessageService){}
 
   ngOnInit(): void {
     let user = this.authenticationService.getUserFromLocalCache();
@@ -107,15 +107,44 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   showDialog2(user: User) {
-    this.visible2 = true;
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to proceed the deletion?',
+      header: 'Delete user',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if(this.checkIsCurrentProfile(user)){
+          this.messageService.add({ severity: 'error', summary: 'Not permitted', detail: 'Is not possible to delete your own account' });
+          return
+        }
+        if(this.checkHasAdminRole("ROLE_SUPER_ADMIN" as Role)){
+          this.messageService.add({ severity: 'error', summary: 'Not permitted', detail: 'Only users when admin role can delete users' });
+          return
+        }
+        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'You have accepted' });
+      },
+      reject: (type: ConfirmEventType) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+              break;
+            case ConfirmEventType.CANCEL:
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+              break;
+          }
+      }
+  });
+  }
+
+  checkHasAdminRole(role: Role): boolean{
+    return Role.ADMIN == role ?  true : false;
+  }
+
+  checkIsCurrentProfile(user: User){
+    return this.user.username === user.username;
   }
   
   doIt() {
-
-  }
-
-  onLogOut() {
-  
+    
   }
 
   onProfileImageChange($event: Event) {

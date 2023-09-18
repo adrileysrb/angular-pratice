@@ -5,7 +5,14 @@
         </ng-template>
         <ng-template pTemplate="end">
           <div class="card flex justify-content-center">
-              <p-button routerLink="user/profile" label="My Account"></p-button>
+            <div style="display: inline-flex;">
+              <div style="margin-left: 10px;">
+                <p-button routerLink="user/profile" label="My Account"></p-button>
+              </div>
+              <div style="margin-left: 10px;">
+                <p-button (click)="onLogOut()" label="Logout"></p-button>
+              </div>
+            </div>
           </div>
         </ng-template>
     </p-menubar>

@@ -8,7 +8,6 @@ import { NotificationType } from '../enum/notification-type.enum';
 import { FileUploadStatus } from '../model/file-upload-status';
 import { NotificationService } from '../service/notification.service';
 import { AuthenticationService } from '../service/authentication.service';
-import { Role } from '../enum/role.enum';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 
@@ -33,11 +32,11 @@ export class UserProfileComponent implements OnInit{
   public fileName!: string;
 
   constructor(private userService: UserService,
-     private notificationService: NotificationService,
-     private authenticationService: AuthenticationService,
-     private router: Router,
-     private confirmationService: ConfirmationService,
-      private messageService: MessageService){}
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService){}
 
   ngOnInit(): void {
     
@@ -45,8 +44,8 @@ export class UserProfileComponent implements OnInit{
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       username: new FormControl(''),
-      email: new FormControl(''),
-      role: new FormControl<Role | null>(null),
+      email: new FormControl({value: this.user?.email!, disabled: true}),
+      role: new FormControl<String | null>({value: this.user?.role!, disabled: true}),
       active: new FormControl<boolean | null>(null),
       unlocked: new FormControl<boolean | null>(null)
     });
@@ -63,7 +62,11 @@ export class UserProfileComponent implements OnInit{
       active:  this.user?.active,
       unlocked:  this.user?.notLocked
     }
-    console.log(valuesForm)
+    //const indexOfS = Object.values(Role)
+    var x: City[] = new Array(1);
+    x[0] = {name: this.user?.role!};
+
+    this.cities = x;
     this.userProfileForm.setValue(valuesForm);
   }
 
@@ -124,12 +127,6 @@ export class UserProfileComponent implements OnInit{
     } else {
       this.notificationService.notify(notificationType, 'An error occurred. Please try again.');
     }
-  }
-
-  public onLogOut(): void {
-    this.authenticationService.logOut();
-    this.router.navigate(['/login']);
-    this.sendNotification(NotificationType.SUCCESS, `You've been successfully logged out`);
   }
 
   confirm1() {
